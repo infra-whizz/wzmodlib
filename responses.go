@@ -8,9 +8,10 @@ import (
 )
 
 type Response struct {
-	Msg     string `json:"msg"`
-	Changed bool   `json:"changed"`
-	Failed  bool   `json:"failed"`
+	Msg     string                 `json:"msg"`
+	Changed bool                   `json:"changed"`
+	Failed  bool                   `json:"failed"`
+	Return  map[string]interface{} `json:"return"`
 }
 
 // ExitWithJSON returns JSON response to the system
@@ -25,12 +26,13 @@ func ExitWithFailedJSON(response Response) {
 }
 
 // CheckModuleCall of the proper invocation interface
-func CheckModuleCall(args interface{}) Response {
-	var response Response
+func CheckModuleCall(args interface{}) *Response {
+	response := new(Response)
+	response.Return = make(map[string]interface{})
 
 	if len(os.Args) != 2 {
 		response.Msg = "No arguments file has been provided"
-		ExitWithFailedJSON(response)
+		ExitWithFailedJSON(*response)
 	}
 
 	argFilename := os.Args[1]
@@ -38,13 +40,13 @@ func CheckModuleCall(args interface{}) Response {
 	text, err := ioutil.ReadFile(argFilename)
 	if err != nil {
 		response.Msg = fmt.Sprintf("Unable to read configuration file: %s", argFilename)
-		ExitWithFailedJSON(response)
+		ExitWithFailedJSON(*response)
 	}
 
 	err = json.Unmarshal(text, &args)
 	if err != nil {
 		response.Msg = fmt.Sprintf("Configuration file has ivalid JSON: %s", argFilename)
-		ExitWithFailedJSON(response)
+		ExitWithFailedJSON(*response)
 	}
 
 	return response
