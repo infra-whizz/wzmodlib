@@ -25,7 +25,7 @@ func ExitWithFailedJSON(response Response) {
 }
 
 // CheckModuleCall of the proper invocation interface
-func CheckModuleCall() (ModuleArgs, Response) {
+func CheckModuleCall(args interface{}) Response {
 	var response Response
 
 	if len(os.Args) != 2 {
@@ -41,14 +41,13 @@ func CheckModuleCall() (ModuleArgs, Response) {
 		ExitWithFailedJSON(response)
 	}
 
-	var moduleArgs ModuleArgs
-	err = json.Unmarshal(text, &moduleArgs)
+	err = json.Unmarshal(text, &args)
 	if err != nil {
 		response.Msg = fmt.Sprintf("Configuration file has ivalid JSON: %s", argFilename)
 		ExitWithFailedJSON(response)
 	}
 
-	return moduleArgs, response
+	return response
 }
 
 func createResponse(response Response) {
