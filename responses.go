@@ -45,7 +45,7 @@ func CheckModuleCall(args interface{}) *Response {
 
 	err = json.Unmarshal(text, &args)
 	if err != nil {
-		response.Msg = fmt.Sprintf("Configuration file has ivalid JSON: %s", argFilename)
+		response.Msg = fmt.Sprintf("Configuration file has invalid JSON: %s", argFilename)
 		ExitWithFailedJSON(*response)
 	}
 
