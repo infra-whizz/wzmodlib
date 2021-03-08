@@ -72,3 +72,9 @@ func CheckAnsibleBool(opt string, val string, on bool) (string, error) {
 
 	return val, nil
 }
+
+// CheckAnsibleBoolType checks if the value is within "yes" or "no" and if it is empty, then default value is set. Returns boolean type.
+func CheckAnsibleBoolType(opt string, val string, on bool) (bool, error) {
+	v, err := CheckAnsibleBool(opt, val, on)
+	return YesNo2Bool(v), err
+}
