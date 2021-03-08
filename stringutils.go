@@ -58,7 +58,7 @@ func CheckAnsibleParameter(opt string, val string, expected []string) error {
 	return nil
 }
 
-// CheckAnsibleBool checks if the value is within "yes" or "no" and if it is empty, then default value is set
+// CheckAnsibleBool checks if the value is within "yes" or "no" and if it is empty, then default value is set. Returns string value.
 func CheckAnsibleBool(opt string, val string, on bool) (string, error) {
 	if val == "" {
 		if on {
